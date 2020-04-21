@@ -21,6 +21,12 @@
         <button class="btn btn-lg btn-success" (click)="onSearch()">search</button>
       </div>
     </div>
+    <div class="row">
+      <div *ngFor="let field of fields | keyvalue">
+        <input type="checkbox" [id]="field.key + 'Field'" [formControl]="field.value" (change)="toggleFields()">
+        <label [for]="field.key + 'Field'">{{ field.key }}</label>
+      </div>
+    </div>
   </div>
   <div class="search-list">
     <h3 *ngIf="total >= 0">{{ total }} Records Found</h3>
@@ -28,7 +34,7 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Version</th>
+          <!-- get selected fields dynamically -->
         </tr>
       </thead>
       <tbody>
@@ -39,7 +45,9 @@
           <ng-template #nohomepage>
             <td>{{ result.name }}</td>
           </ng-template>
-          <td>{{ result.version }}</td>
+          <td *ngFor="let field of fieldNames">
+            {{ result[field] }}
+          </td>
         </tr>
       </tbody>
     </table>

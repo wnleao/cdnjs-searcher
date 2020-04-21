@@ -15,12 +15,11 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
-  get(name: string, fields?: string[]) {
+  search(name: string, fields?: string[]) {
     if(!fields) {
       fields = []
     }
     fields.push('name');
-    fields.push('version');
     fields.push('homepage');
     fields = [...new Set(fields)];
     
