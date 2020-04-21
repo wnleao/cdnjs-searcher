@@ -19,9 +19,9 @@ export class SearchService {
     if(!fields) {
       fields = []
     }
-    fields.push('name');
-    fields.push('homepage');
-    fields = [...new Set(fields)];
+
+    // remove duplicates...
+    fields = [...new Set(fields).add('name').add('homepage')];
     
     const params_ = {
       search: name,

@@ -10,14 +10,6 @@ import {
 } from 'rxjs/operators';
 import { Observable, Observer } from 'rxjs';
 
-// description
-// keywords
-// license
-// repository
-// autoupdate
-// author
-// assets
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,23 +17,21 @@ import { Observable, Observer } from 'rxjs';
 })
 export class AppComponent {
   queryField = new FormControl();
-  descriptionField = new FormControl();
-  licenseField = new FormControl();
-  versionField = new FormControl();
+  
+  fieldNames = ['description', 'license', 'version', 'keywords', 'repository', 'autoupdate', 'author', 'assets'];
 
-  fields = {
-    description: this.descriptionField,
-    license: this.licenseField,
-    version: this.versionField,
-  };
-
+  fields = {};
   currentQuery = '';
   currentSelectedFields = [];
   suggestions$: Observable<any>;
   results$: Observable<any>;
   total: number;
 
-  constructor(private service: SearchService) { }
+  constructor(private service: SearchService) { 
+    this.fieldNames.forEach(field => {
+      this.fields[field] = new FormControl();
+    });
+  }
 
   ngOnInit(): void {
     this.suggestions$ = new Observable((observer: Observer<string>) => {
@@ -90,20 +80,16 @@ export class AppComponent {
     // )
   }
 
-  get fieldNames() {
-    return Object.entries(this.fields).map(([key, _]) => key);
-  }
-
   get selectedFields() {
     return Object.entries(this.fields)
-    .filter(([_, field]) => field.value || false)
+    .filter(([_, field]) => (field as FormControl).value || false)
     .map(([key, _]) => key);
   }
 
   toggleFields() {
     console.log('toggle fields...');
-    for (let [k, f] of Object.entries(this.fields)) {
-      console.log(`${k} = ${f.value || false}`);
+    for (let [key, field] of Object.entries(this.fields)) {
+      console.log(`${key} = ${(field as FormControl).value || false}`);
     }
   }
 
