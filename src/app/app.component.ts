@@ -10,6 +10,18 @@ import {
 } from 'rxjs/operators';
 import { Observable, Observer } from 'rxjs';
 
+// control_name = presentation_name
+export enum ExtraField {
+  DESCRIPTION = 'Description',
+  LICENSE = 'License',
+  VERSION = 'Version', 
+  KEYWORDS = 'Keywords', 
+  REPOSITORY = 'Repository',
+  AUTOUPDATE = 'Autoupdate',
+  AUTHOR = 'Author',
+  ASSETS = 'Assets',
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,8 +30,6 @@ import { Observable, Observer } from 'rxjs';
 export class AppComponent {
   queryField = new FormControl();
   
-  fieldNames = ['description', 'license', 'version', 'keywords', 'repository', 'autoupdate', 'author', 'assets'];
-
   fields = {};
   currentQuery = '';
   currentSelectedFields = [];
@@ -78,6 +88,10 @@ export class AppComponent {
     //   switchMap(value => value.length > 1 ? this.search(value) : of([]))
     //   // switchMap(value => iif(() => value.length > 1, this.search(value), this.emptySearch()))
     // )
+  }
+
+  get fieldNames() {
+    return Object.keys(ExtraField).map(n => n.toLowerCase());
   }
 
   get selectedFields() {
